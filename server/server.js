@@ -2,7 +2,7 @@ const httpServer = require("http").createServer();
 const sioServer = new (require("socket.io")).Server(httpServer);
 const port = 4242;
 
-sioServer.on("connect", (socket) => {
+sioServer.of("/").on("connect", (socket) => {
   console.log("a client connected\n");
 
   socket.on("disconnect", (reason) => {
@@ -10,6 +10,7 @@ sioServer.on("connect", (socket) => {
   });
 
   socket.on("join", (data) => {
+    socket.username = data.sender;
     socket.broadcast.emit("join", data);
   });
 
@@ -18,9 +19,20 @@ sioServer.on("connect", (socket) => {
   });
 
   socket.on("broadcast", (data) => {
-    console.log("received payload on broadcast event: %o\n", data);
-
     socket.broadcast.emit("broadcast", data);
+  });
+
+  socket.on("list", (data) => {
+    let usernames = [];
+
+    for (const [socketID, socket] of sioServer.of("/").sockets) {
+      usernames.push(socket.username);
+    }
+    socket.emit("list", {
+      "sender": data.sender,
+      "action": data.action,
+      "usernames": usernames
+    });
   });
 
 });

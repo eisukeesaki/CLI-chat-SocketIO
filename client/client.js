@@ -1,6 +1,6 @@
 const { Manager } = require("socket.io-client");
 
-console.log("[ft_chat] connecting to chat server...\n");
+console.log("[activity] connecting to chat server...");
 
 const url = "ws://127.0.0.1:4242";
 const manager = new Manager(url);
@@ -12,7 +12,7 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
-let nickname = process.argv[2];
+let username = process.argv[2];
 
 rl.on("line", (input) => {
   if (input[0] == "\\") { // is command
@@ -21,18 +21,24 @@ rl.on("line", (input) => {
     switch (command) {
       case "exit":
         socket.emit("leave", {
-          "sender": nickname
+          "sender": username,
+          "action": "leave"
         });
 
-        console.log("[ft_chat] leaving chat...");
+        console.log("[activity] leaving chat...");
         process.exit();
         break;
+      case "list":
+        socket.emit("list", {
+          "sender": username,
+          "action": "list"
+        });
       default:
-        console.log("[ft_chat] command not found\n");
+        console.log("[activity] command not found");
     }
   } else { // is chat message
     socket.emit("broadcast", {
-      "sender": nickname,
+      "sender": username,
       "action": "broadcast",
       "message": input
     });
@@ -40,26 +46,34 @@ rl.on("line", (input) => {
 });
 
 socket.on("connect", () => {
-  console.log("[ft_chat] welcome, %s\n", nickname);
+  console.log("[activity] welcome, %s", username);
 
   socket.emit("join", {
-    "sender": nickname
+    "sender": username,
+    "action": "join",
   });
 });
 
 socket.on("disconnect", (reason) => {
-  console.log("[ft_chat] chat client disconnected. reason: %s\n", reason);
+  console.log("[activity] chat client disconnected. reason: %s", reason);
 });
 
 socket.on("join", (data) => {
-  console.log("[ft_chat] %s has joined the chat", data.sender);
+  console.log("[activity] %s has joined the chat", data.sender);
 });
 
 socket.on("leave", (data) => {
-  console.log("[ft_chat] %s has left the chat", data.sender);
+  console.log("[activity] %s has left the chat", data.sender);
 });
 
 socket.on("broadcast", (data) => {
-  console.log("%s\n", data.message);
+  console.log("%s", data.message);
+});
+
+socket.on("list", (data) => {
+  console.log("[info] chat participants:");
+  for (let i = 0; i < data.usernames.length; i++) {
+    console.log("- " + data.usernames[i]);
+  }
 });
 
