@@ -1,0 +1,15 @@
+{
+  "name": "cli_real_time_chat_app",
+  "version": "0.0.0",
+  "description": "CLI real-time chat app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Acekay",
+  "license": "ISC",
+  "dependencies": {
+    "socket.io": "^4.5.1",
+    "socket.io-client": "^4.5.1"
+  }
+}
