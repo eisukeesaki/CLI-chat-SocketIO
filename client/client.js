@@ -15,11 +15,28 @@ const rl = readline.createInterface({
 let nickname = process.argv[2];
 
 rl.on("line", (input) => {
-  socket.emit("broadcast", {
-    "sender": nickname,
-    "action": "broadcast",
-    "message": input
-  });
+  if (input[0] == "\\") { // is command
+    const command = input.slice(1);
+
+    switch (command) {
+      case "exit":
+        socket.emit("leave", {
+          "sender": nickname
+        });
+
+        console.log("[ft_chat] leaving chat...");
+        process.exit();
+        break;
+      default:
+        console.log("[ft_chat] command not found\n");
+    }
+  } else { // is chat message
+    socket.emit("broadcast", {
+      "sender": nickname,
+      "action": "broadcast",
+      "message": input
+    });
+  }
 });
 
 socket.on("connect", () => {
@@ -36,6 +53,10 @@ socket.on("disconnect", (reason) => {
 
 socket.on("join", (data) => {
   console.log("[ft_chat] %s has joined the chat", data.sender);
+});
+
+socket.on("leave", (data) => {
+  console.log("[ft_chat] %s has left the chat", data.sender);
 });
 
 socket.on("broadcast", (data) => {

@@ -5,10 +5,6 @@ const port = 4242;
 sioServer.on("connect", (socket) => {
   console.log("a client connected\n");
 
-  socket.on("broadcast", (data) => {
-    socket.broadcast.emit("broadcast", data);
-  });
-
   socket.on("disconnect", (reason) => {
     console.log("a client disconnected. reason: %s\n", reason);
   });
@@ -16,6 +12,17 @@ sioServer.on("connect", (socket) => {
   socket.on("join", (data) => {
     socket.broadcast.emit("join", data);
   });
+
+  socket.on("leave", (data) => {
+    socket.broadcast.emit("leave", data);
+  });
+
+  socket.on("broadcast", (data) => {
+    console.log("received payload on broadcast event: %o\n", data);
+
+    socket.broadcast.emit("broadcast", data);
+  });
+
 });
 
 httpServer.listen(port, () => {
