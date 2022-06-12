@@ -19,7 +19,7 @@ rl.on("line", (input) => {
     const command = input.slice(1);
 
     switch (command) {
-      case "exit":
+      case "leave":
         socket.emit("leave", {
           "sender": username,
           "action": "leave"

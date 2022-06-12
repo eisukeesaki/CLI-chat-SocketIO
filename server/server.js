@@ -16,6 +16,7 @@ sioServer.of("/").on("connect", (socket) => {
 
   socket.on("leave", (data) => {
     socket.broadcast.emit("leave", data);
+    socket.disconnect(true);
   });
 
   socket.on("broadcast", (data) => {
