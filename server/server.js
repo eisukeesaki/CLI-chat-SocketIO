@@ -12,6 +12,10 @@ sioServer.on("connect", (socket) => {
   socket.on("disconnect", (reason) => {
     console.log("a client disconnected. reason: %s\n", reason);
   });
+
+  socket.on("join", (data) => {
+    socket.broadcast.emit("join", data);
+  });
 });
 
 httpServer.listen(port, () => {
