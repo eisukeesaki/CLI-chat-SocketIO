@@ -1,7 +1,6 @@
+const httpServer = require("http").createServer();
+const sioServer = new (require("socket.io")).Server(httpServer);
 const port = 4242;
-const sioServer = require("socket.io")(port);
-
-console.log("server is listening to port: %s\n", port);
 
 sioServer.on("connect", (socket) => {
   console.log("a client connected\n");
@@ -13,5 +12,9 @@ sioServer.on("connect", (socket) => {
   socket.on("disconnect", (reason) => {
     console.log("a client disconnected. reason: %s\n", reason);
   });
+});
+
+httpServer.listen(port, () => {
+  console.log("server is listening to port: %s\n", port);
 });
 
