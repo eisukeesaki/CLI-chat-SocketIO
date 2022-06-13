@@ -33,6 +33,11 @@ problem
                         WebSocket API
                     mechanism
                         handshake
+                            automated process
+                                exchange of information
+                                    negotiation between participants of communication
+                                    establish protocol of communication before starting full communication
+                                facilitates connecting heterogeneous systems/equipments without human intervention
                             opening
                                 HTTP/1.1 header examples
                                     from client
@@ -57,11 +62,6 @@ problem
                                 client
                                     HTTP upgrade request
                                 server
-                            automated process
-                                exchange of information
-                                    negotiation between participants of communication
-                                    establish protocol of communication before starting full communication
-                                facilitates connecting heterogeneous systems/equipments without human intervention
                             RFC usually use the term to reference TCP 3-way handshake
                                 TCP 3-way handshake
                                     1. SYNchronize

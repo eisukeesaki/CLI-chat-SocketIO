@@ -44,8 +44,9 @@ issues
                     unicast
                         to client specified by username
                     broadcast
-                        ✓to clients connected to save server
+                        ✓to clients connected to same server
                     multicast
+                        ✓to arbitrary clients connected to same server
             
                 
 features to add

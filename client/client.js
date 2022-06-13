@@ -12,7 +12,6 @@ const socket = manager.socket("/");
 const readline = require("readline");
 const rl = readline.createInterface({
   input: process.stdin,
-  output: process.stdout // TODO: unnecessary?
 });
 
 let username = process.argv[2];
@@ -98,7 +97,7 @@ socket.on("multicast", (data) => {
 
     manager.socket(namespace, options)
         instantiates
-            Manager
+            Socket
                 with given namespace
                 manages Engine.IO client instance
                     establishes connections to server

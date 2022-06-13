@@ -5,6 +5,7 @@ function parseInput(input) {
 
   if (!input.includes(" ")) { // no arg(s). just command.
     parsed.command = input.slice(1);
+
     return parsed;
   }
 
@@ -17,11 +18,13 @@ function parseInput(input) {
   } else { // command + receiver(s) + message
     let receivers = [];
     let iHeads = [];
+
     for (let i = 0; i < input.length; i++) {
       if (input[i] === "@")
         iHeads.push(i + 1);
     }
     let iTails = [];
+
     for (let i = 0; i < iHeads.length; i++) {
       for (let k = iHeads[i]; k < input.length; k++) {
         if (input[k] === " ") {
