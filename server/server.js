@@ -23,6 +23,15 @@ sioServer.of("/").on("connect", (socket) => {
     socket.broadcast.emit("broadcast", data);
   });
 
+  socket.on("multicast", (data) => {
+    for (const [socketId, socket] of sioServer.of("/").sockets) {
+      for (receiver of data.receivers) {
+        if (socket.username == receiver)
+          sioServer.to(socketId).emit("multicast", data);
+      }
+    }
+  });
+
   socket.on("list", (data) => {
     let usernames = [];
 

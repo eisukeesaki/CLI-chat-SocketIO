@@ -26,7 +26,28 @@ real-time chat app
                 listen to a port for connection requests
                 receive messages
                 broadcast message to connected clients
+
+issues
+    features
+        client
+            connection
+                ✓connect to server
+                ✓programmatically disconnect from server
+            informational
+                list other clients
+                    ✓connected to same server
+                notification
+                    ✓connection
+                    ✓disconnection
+            conversation
+                chat message
+                    unicast
+                        to client specified by username
+                    broadcast
+                        ✓to clients connected to save server
+                    multicast
             
+                
 features to add
     Broadcast a message to connected users when someone connects or disconnects.
     Add support for nicknames.
