@@ -20,7 +20,6 @@ let username = process.argv[2];
 rl.on("line", (input) => {
   if (input[0] == "\\") { // is command
     const parsed = parseInput(input);
-    console.log(parsed);
 
     switch (parsed.command) {
       case "leave":
@@ -32,14 +31,6 @@ rl.on("line", (input) => {
         console.log("[activity] leaving chat...");
         process.exit();
         break;
-      case "msgusers":
-        socket.emit("multicast", {
-          "sender": username,
-          "receivers": parsed.receivers,
-          "action": "multicast",
-          "message": parsed.message
-        });
-        break;
       case "list":
         socket.emit("list", {
           "sender": username,
@@ -50,6 +41,14 @@ rl.on("line", (input) => {
         socket.emit("broadcast", {
           "sender": username,
           "action": "broadcast",
+          "message": parsed.message
+        });
+        break;
+      case "msgusers":
+        socket.emit("multicast", {
+          "sender": username,
+          "receivers": parsed.receivers,
+          "action": "multicast",
           "message": parsed.message
         });
         break;
@@ -80,6 +79,13 @@ socket.on("leave", (data) => {
   console.log("[activity] %s has left the chat", data.sender);
 });
 
+socket.on("list", (data) => {
+  console.log("[info] chat participants:");
+  for (let i = 0; i < data.usernames.length; i++) {
+    console.log("- " + data.usernames[i]);
+  }
+});
+
 socket.on("broadcast", (data) => {
   console.log("%s", data.message);
 });
@@ -87,13 +93,6 @@ socket.on("broadcast", (data) => {
 socket.on("multicast", (data) => {
   console.log("%s", data.message);
 })
-
-socket.on("list", (data) => {
-  console.log("[info] chat participants:");
-  for (let i = 0; i < data.usernames.length; i++) {
-    console.log("- " + data.usernames[i]);
-  }
-});
 
 /*
 
