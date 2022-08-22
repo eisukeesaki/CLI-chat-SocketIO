@@ -1,61 +1,47 @@
 # real-time chat app
 
+## Usage
+
+1. clone repository
+2. run `npm install`
+3. run `node server/server.js`
+4. run `node client/client.js <username>`
+5. repeat step 4 as many times as you like in a new shell
+
+## List of available client commands
+
+### `\leave`
+
+leave chat room
+
 ```text
-
-real-time chat app
-    UI
-        command-line
-    communication protocol
-        WebSocket
-            JavaScript library
-                Socket.io
-    functions
-        client
-            connect to server
-                maintain connection
-            messages
-                send
-                    read command-line input
-                        Node.js
-                            ?readline
-                receive
-                    print on commnad-line
-                        console.log()
-        server
-            act as intermediary between connected clients
-                listen to a port for connection requests
-                receive messages
-                broadcast message to connected clients
-
-issues
-    features
-        client
-            connection
-                ✓connect to server
-                ✓programmatically disconnect from server
-            informational
-                list other clients
-                    ✓connected to same server
-                notification
-                    ✓connection
-                    ✓disconnection
-            conversation
-                chat message
-                    unicast
-                        to client specified by username
-                    broadcast
-                        ✓to clients connected to same server
-                    multicast
-                        ✓to arbitrary clients connected to same server
-            
-                
-features to add
-    Broadcast a message to connected users when someone connects or disconnects.
-    Add support for nicknames.
-    Don’t send the same message to the user that sent it. Instead, append the message directly as soon as he/she presses enter.
-    Add “{user} is typing” functionality.
-    Show who’s online.
-    Add private messaging.
-
+\leave
 ```
 
+### `\list`
+
+list participants of the chat room you are in
+
+```text
+\list
+```
+
+### `\msgall <message>`
+
+send message to everyone in the chat room you are in  
+
+```text
+\msgall Hello everyone!
+```
+
+### `\msgusers @username @username ... <message>`
+
+send a message to specified users in the chat room you are in
+
+```text
+\msgusers @bob @alice @john Hello Bob, Alice, and John!
+```
+
+## Features to add
+
+- add '{user} is typing...' functionality
