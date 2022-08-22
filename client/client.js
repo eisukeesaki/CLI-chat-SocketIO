@@ -29,7 +29,6 @@ rl.on("line", (input) => {
 
         console.log("[activity] leaving chat...");
         process.exit();
-        break;
       case "list":
         socket.emit("list", {
           "sender": username,
